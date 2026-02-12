@@ -354,7 +354,7 @@ export default function App() {
                   Start New
                 </Button>
                 <Button
-                  onClick={() => window.open(`http://localhost:8000/uploads/${file?.name ? 'generated_' + (file.name || 'doc') : ''}.docx`, '_blank')} // Simplified view logic
+                  onClick={() => window.open(`${API_URL}/uploads/${file?.name ? 'generated_' + (file.name || 'doc') : ''}.docx`, '_blank')} // Simplified view logic
                   className="bg-white text-black hover:bg-slate-200 px-6 h-10 shadow-lg shadow-white/10"
                 >
                   Download File
