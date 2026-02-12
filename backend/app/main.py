@@ -9,6 +9,8 @@ import traceback
 from .services import transcribe_audio, extract_placeholders, parse_transcript_with_ai, infer_and_fill_template, generate_filled_docx, get_template_text
 
 # Allow frontend access
+app = FastAPI(title="Dynamic Document Generator API")
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
