@@ -17,9 +17,9 @@ app.add_middleware(
         "http://localhost:3000",
         "http://127.0.0.1:3000",
         "https://ai-doc-engine.vercel.app",
-        "https://ai-doc-engine-git-main-sobandev.vercel.app",
-        "*" 
+        "https://ai-doc-engine-git-main-sobandev.vercel.app"
     ],
+    allow_origin_regex="https://.*\.vercel\.app",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
