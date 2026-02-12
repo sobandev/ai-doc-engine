@@ -13,7 +13,13 @@ app = FastAPI(title="Dynamic Document Generator API")
 # Allow frontend access
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Allow all origins for dev
+    allow_origins=[
+        "http://localhost:3000",
+        "http://127.0.0.1:3000",
+        "https://ai-doc-engine.vercel.app",
+        "https://ai-doc-engine-git-main-sobandev.vercel.app",
+        "*" 
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
