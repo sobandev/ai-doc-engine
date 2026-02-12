@@ -35,8 +35,14 @@ class CustomCORSMiddleware(BaseHTTPMiddleware):
             if "vercel.app" in origin or "localhost" in origin or "127.0.0.1" in origin:
                 response.headers["Access-Control-Allow-Origin"] = origin
                 response.headers["Access-Control-Allow-Credentials"] = "true"
-                response.headers["Access-Control-Allow-Methods"] = "*"
-                response.headers["Access-Control-Allow-Headers"] = "*"
+                response.headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, DELETE, OPTIONS, PATCH"
+                
+                # Handle Allow-Headers (Wildcard not allowed with credentials)
+                request_headers = request.headers.get("access-control-request-headers")
+                if request_headers:
+                    response.headers["Access-Control-Allow-Headers"] = request_headers
+                else:
+                    response.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization, X-Requested-With"
         
         return response
 
