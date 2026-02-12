@@ -8,45 +8,14 @@ import json
 import traceback
 from .services import transcribe_audio, extract_placeholders, parse_transcript_with_ai, infer_and_fill_template, generate_filled_docx, get_template_text
 
-app = FastAPI(title="Dynamic Document Generator API")
-
 # Allow frontend access
-from starlette.middleware.base import BaseHTTPMiddleware
-from starlette.responses import Response
-
-class CustomCORSMiddleware(BaseHTTPMiddleware):
-    async def dispatch(self, request, call_next):
-        origin = request.headers.get("origin")
-        response = None
-        
-        # Check if it's a preflight request
-        if request.method == "OPTIONS":
-            response = Response(status_code=200)
-        else:
-            try:
-                response = await call_next(request)
-            except Exception as e:
-                traceback.print_exc()
-                response = JSONResponse(status_code=500, content={"detail": str(e)})
-
-        # Add CORS headers
-        if origin:
-            # Allow Vercel (any subdomain) and Localhost
-            if "vercel.app" in origin or "localhost" in origin or "127.0.0.1" in origin:
-                response.headers["Access-Control-Allow-Origin"] = origin
-                response.headers["Access-Control-Allow-Credentials"] = "true"
-                response.headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, DELETE, OPTIONS, PATCH"
-                
-                # Handle Allow-Headers (Wildcard not allowed with credentials)
-                request_headers = request.headers.get("access-control-request-headers")
-                if request_headers:
-                    response.headers["Access-Control-Allow-Headers"] = request_headers
-                else:
-                    response.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization, X-Requested-With"
-        
-        return response
-
-app.add_middleware(CustomCORSMiddleware)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=False,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 UPLOAD_DIR = "backend/uploads"
 TEMPLATE_DIR = "backend/templates"
